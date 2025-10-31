@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>منصة مستر محمد محمود — علوم (بمسؤولية)</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6fbff;
+    --card:#ffffff;
+    --accent1:#2b9ed9;
+    --accent2:#3ddc97;
+    --accent3:#ffd166;
+    --muted:#5b6b74;
+    --text:#05323a;
+    --glass: rgba(3,19,26,0.04);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;font-family:'Cairo',sans-serif}
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,#f6fbff,#eaf7ff);color:var(--text);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1100px;margin:18px auto;padding:18px;}
+  header.appbar{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 18px;border-radius:12px;background:linear-gradient(90deg, rgba(43,158,217,0.06), rgba(61,220,151,0.04));box-shadow: 0 8px 30px rgba(17,33,50,0.06);}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent1),var(--accent2));color:white;font-weight:700;font-size:18px;box-shadow:0 8px 24px rgba(43,158,217,0.18)}
+  .brand h1{margin:0;font-size:18px}
+  .brand p{margin:0;font-size:12px;color:var(--muted)}
+  .page{display:none;animation:fadeIn .28s ease; padding:18px 0}
+  .page.active{display:block}
+  @keyframes fadeIn {from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  /* auth */
+  .auth-card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(16,33,45,0.06);display:flex;gap:20px;align-items:center}
+  .auth-left{flex:1;padding:8px}
+  .auth-right{width:420px;max-width:42%;min-width:260px}
+  .toggle-auth{display:flex;gap:8px;margin-bottom:12px}
+  .toggle-auth button{flex:1;padding:10px;border-radius:12px;border:0;cursor:pointer;font-weight:700;background:transparent;color:var(--muted)}
+  .toggle-auth button.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;box-shadow:0 8px 24px rgba(43,158,217,0.18)}
+  label{display:block;font-size:13px;color:var(--muted);margin:8px 0 6px}
+  input[type="text"], input[type="password"], input[type="email"], select, textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(5,50,58,0.06);background:#fbfeff;font-size:15px}
+  .btn{padding:10px 16px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;cursor:pointer;font-weight:700}
+  .btn.ghost{background:transparent;border:1px solid rgba(5,50,58,0.06);color:var(--text)}
+  .hero-visual{position:relative;padding:6px;border-radius:12px;background:linear-gradient(180deg,#ffffff,#f0fbff);box-shadow:inset 0 1px 0 rgba(255,255,255,0.6)}
+  .atom-svg{width:100%;height:220px}
+  /* home */
+  .welcome-card{background:linear-gradient(180deg,#fff,#f7feff);border-radius:14px;padding:18px;display:flex;gap:18px;align-items:center;box-shadow: 0 10px 30px rgba(10,30,40,0.04)}
+  .welcome-text{flex:1;text-align:right}
+  .actions-row{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+  .phase-btn{padding:12px 16px;border-radius:12px;background:linear-gradient(90deg,#ffffff,rgba(255,255,255,0.8));border:1px solid rgba(5,50,58,0.04);cursor:pointer;font-weight:700;min-width:150px}
+  .phase-btn:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(43,158,217,0.06)}
+  .years-grid{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+  .year-card{padding:14px 18px;border-radius:12px;background:linear-gradient(180deg,#ffffff,#f6fbff);cursor:pointer;border:1px solid rgba(5,50,58,0.04);min-width:130px;text-align:center}
+  .year-card.active{background:linear-gradient(90deg,var(--accent2),var(--accent1));color:white;box-shadow:0 8px 24px rgba(61,220,151,0.12)}
+  /* class page */
+  .weeks-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:18px}
+  .week-card{background:#fff;padding:12px;border-radius:12px;cursor:pointer;border:1px solid rgba(5,50,58,0.04);text-align:center;box-shadow:0 6px 20px rgba(3,19,26,0.02)}
+  .week-card:hover{transform:translateY(-6px)}
+  .week-card.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white}
+  .content-panel{margin-top:16px;background:linear-gradient(180deg,#ffffff,#f8ffff);padding:16px;border-radius:12px;border:1px solid rgba(5,50,58,0.04)}
+  iframe.video{width:100%;height:320px;border-radius:10px;border:0;background:#000}
+  .quiz-link{display:inline-block;margin-top:12px;padding:10px 12px;border-radius:10px;background:linear-gradient(90deg,var(--accent3),var(--accent2));color:#052;font-weight:700;text-decoration:none}
+  .progress-bar{width:100%;height:12px;background:#e9f6f0;border-radius:10px;overflow:hidden;margin-top:8px}
+  .progress-bar > div{height:100%;background:linear-gradient(90deg,var(--accent1),var(--accent2));width:0%}
+  /* admin panel */
+  .admin-panel{background:#fff;padding:12px;border-radius:12px;box-shadow:0 10px 30px rgba(10,30,40,0.04);margin-top:12px}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  .small{font-size:13px;color:var(--muted)}
+  .flex-between{display:flex;justify-content:space-between;align-items:center}
+  /* responsive */
+  @media(max-width:880px){.auth-card{flex-direction:column}.auth-right{width:100%;max-width:100%}.atom-svg{height:180px}.iframe.video{height:220px}}
+  @media(max-width:520px){header.appbar{flex-direction:column;align-items:flex-start;gap:8px}.brand p{display:none}.logo{width:48px;height:48px}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- appbar -->
+    <header class="appbar" role="banner">
+      <div class="brand">
+        <div class="logo">م م</div>
+        <div>
+          <h1>مستر محمد محمود</h1>
+          <p>منصة تفاعلية لتعليم العلوم</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div id="user-info" style="display:none;text-align:right">
+          <div style="font-weight:700" id="top-student-name"></div>
+          <div style="font-size:12px;color:var(--muted)">طالب علوم</div>
+        </div>
+        <button id="adminBtn" class="btn ghost" title="لوحة الإدارة" onclick="openAdmin()">لوحة الإدارة</button>
+      </div>
+    </header>
+
+    <!-- AUTH PAGE -->
+    <section id="auth-page" class="page active" aria-labelledby="auth-title">
+      <h2 id="auth-title" style="text-align:right;margin:12px 0">أهلًا بك — سجّل أو ادخل</h2>
+      <div class="auth-card" role="region" aria-label="منطقة التسجيل">
+        <div class="auth-left">
+          <div class="hero-visual" aria-hidden="true">
+            <svg class="atom-svg" viewBox="0 0 600 260" preserveAspectRatio="xMidYMid meet">
+              <defs><linearGradient id="gA" x1="0" x2="1"><stop offset="0" stop-color="#2b9ed9"/><stop offset="1" stop-color="#3ddc97"/></linearGradient></defs>
+              <rect x="18" y="12" width="564" height="236" rx="12" fill="url(#gA)" opacity="0.06"/>
+              <g transform="translate(80,10)">
+                <g transform="translate(250,110)">
+                  <circle r="12" fill="#fff"/>
+                  <g stroke="url(#gA)" stroke-width="3" stroke-opacity="0.25" fill="none">
+                    <ellipse rx="160" ry="36" transform="rotate(20)"></ellipse>
+                    <ellipse rx="100" ry="60" transform="rotate(-25)"></ellipse>
+                    <ellipse rx="60" ry="140" transform="rotate(50)"></ellipse>
+                  </g>
+                  <circle cx="-10" cy="-160" r="8" fill="#fff"><animateTransform attributeName="transform" dur="8s" type="rotate" from="0 0 0" to="360 0 0" repeatCount="indefinite"/></circle>
+                  <circle cx="150" cy="0" r="7" fill="#fff"><animateTransform attributeName="transform" dur="6s" type="rotate" from="360 0 0" to="0 0 0" repeatCount="indefinite"/></circle>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <div style="margin-top:12px;text-align:right">
+            <h3 style="margin:0">منصة مبسطة ومرحة لتعليم العلوم</h3>
+            <p style="margin:6px 0;color:var(--muted)">دروس مقسمة في 12 أسبوع لكل صف + اختبارات قصيرة. مناسبة لكل المراحل.</p>
+            <ul style="margin:8px 0 0 18px;color:var(--muted);text-align:right">
+              <li>واجهة جذابة للطالب</li>
+              <li>لوحة إدارة لإضافة الفيديوهات والاختبارات</li>
+              <li>متابعة تقدم الطالب بشكل محلي</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="auth-right" style="text-align:right">
+          <div class="toggle-auth" role="tablist" aria-label="تبديل تسجيل">
+            <button id="tab-new" class="active" onclick="showAuth('new')">تسجيل جديد</button>
+            <button id="tab-loginExisting" onclick="showAuth('exist')">دخول لمستخدم مسجل</button>
+          </div>
+
+          <!-- new -->
+          <div id="auth-new">
+            <label>اسم الطالب</label>
+            <input id="reg-name" type="text" placeholder="مثال: أحمد محمد">
+            <label>البريد/الهاتف (اختياري)</label>
+            <input id="reg-contact" type="text" placeholder="مثال: example@mail.com أو 0112...">
+            <label>كلمة مرور</label>
+            <input id="reg-pass" type="password" placeholder="اختر كلمة قوية">
+            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn" onclick="registerNew()">سجل وابدأ</button>
+              <button class="btn ghost" onclick="document.getElementById('reg-name').value='';document.getElementById('reg-contact').value='';document.getElementById('reg-pass').value=''">إعادة</button>
+            </div>
+            <p class="small" style="margin-top:10px">لو مسجل بالفعل؟ استخدم تبويب "دخول لمستخدم مسجل".</p>
+          </div>
+
+          <!-- exist -->
+          <div id="auth-exist" style="display:none">
+            <label>اسم المستخدم</label>
+            <input id="login-name" type="text" placeholder="اكتب اسمك">
+            <label>كلمة المرور</label>
+            <input id="login-pass" type="password" placeholder="كلمة المرور">
+            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn" onclick="loginExisting()">دخول</button>
+              <button class="btn ghost" onclick="fillDemo()">تجربة سريعة</button>
+            </div>
+            <p class="small" style="margin-top:10px">إذا نسيت بياناتك، سجل جديدًا أو اتصل بالمدرس.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- HOME -->
+    <section id="home-page" class="page" aria-labelledby="home-title">
+      <div class="welcome-card">
+        <div style="flex:1;text-align:right" class="welcome-text">
+          <h2 id="welcome-title">أهلًا بك يا <span id="student-name-display"></span> 👋</h2>
+          <p>أنا <strong>مستر محمد محمود</strong> — مدرس علوم. هنا هتلاقي دروس مبسطة، تجارب، وفيديوهات لكل مرحلة.</p>
+          <div style="margin-top:8px;color:var(--muted)">اختر مرحلتك لعرض السنوات المتاحة</div>
+          <div class="actions-row" style="margin-top:12px">
+            <div class="phase-btn" onclick="choosePhase('ابتدائي')">المرحلة الابتدائية</div>
+            <div class="phase-btn" onclick="choosePhase('إعدادي')">المرحلة الإعدادية</div>
+            <div class="phase-btn" onclick="choosePhase('ثانوي')">المرحلة الثانوية</div>
+          </div>
+
+          <div style="margin-top:12px">
+            <div class="small">تقدّمك العام:</div>
+            <div class="progress-bar" title="تقدّم الطالب"><div id="overall-progress" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <div style="width:260px;min-width:200px">
+          <div style="background:linear-gradient(180deg,#fff,#f7fffb);padding:12px;border-radius:12px;box-shadow:0 8px 30px rgba(3,19,26,0.03);text-align:center">
+            <div style="width:84px;height:84px;margin:0 auto;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:20px">م م</div>
+            <h3 style="margin:10px 0 4px">مستر محمد محمود</h3>
+            <p style="margin:0;color:var(--muted);font-size:13px">مدرس علوم — خبرة في تبسيط المناهج</p>
+          </div>
+
+          <div style="margin-top:12px;background:linear-gradient(180deg,#fff,#f6fbff);padding:10px;border-radius:12px;text-align:right;color:var(--muted)">
+            <div style="font-weight:700;margin-bottom:6px">مزايا المنصة</div>
+            <ul style="margin:0 0 0 14px">
+              <li>دروس فيديو قصيرة</li>
+              <li>اختبارات تقييمية</li>
+              <li>لوحة إدارة لتحديث المحتوى بسهولة</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        <div style="flex:1">
+          <h3 style="margin:0 0 6px">اختر المرحلة لعرض السنوات</h3>
+          <div id="years-area" class="years-grid"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <button class="btn ghost" onclick="logout()">تسجيل خروج</button>
+      </div>
+    </section>
+
+    <!-- CLASS PAGE -->
+    <section id="class-page" class="page" aria-labelledby="class-title">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="text-align:right">
+          <h2 id="class-title">صف — <span id="class-info"></span></h2>
+          <p style="color:var(--muted);margin:6px 0 0">اختر أسبوع لتشاهد الفيديو وتدخل الاختبار.</p>
+        </div>
+        <div>
+          <button class="btn ghost" onclick="backToHome()">⬅ العودة للرئيسية</button>
+        </div>
+      </div>
+
+      <div id="weeks-grid" class="weeks-grid"></div>
+
+      <div id="content-area" class="content-panel hidden" aria-live="polite">
+        <div id="chosen-week-title" style="font-weight:700;margin-bottom:8px"></div>
+
+        <div id="video-area">
+          <h4 style="margin:6px 0">🎬 الفيديو التعليمي</h4>
+          <iframe id="video-iframe" class="video" src="" allowfullscreen></iframe>
+        </div>
+
+        <div id="quiz-area" style="margin-top:12px">
+          <h4 style="margin:6px 0">🧠 رابط الاختبار</h4>
+          <a id="quiz-link" class="quiz-link" href="#" target="_blank">اذهب للاختبار</a>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <button class="btn" id="mark-done-btn" onclick="markDone()">علمت كمُنجز</button>
+          <button class="btn ghost" onclick="openAdminForWeek()">🔧 تعديل هذا الأسبوع (مسؤول)</button>
+        </div>
+
+        <div style="margin-top:12px">
+          <div class="small">تقدّم هذا الصف:</div>
+          <div class="progress-bar"><div id="class-progress" style="width:0%"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin modal-like panel as page -->
+    <section id="admin-page" class="page" aria-labelledby="admin-title">
+      <div class="flex-between">
+        <h2 id="admin-title">لوحة الإدارة — تحديث المحتوى</h2>
+        <div>
+          <button class="btn ghost" onclick="closeAdmin()">إغلاق</button>
+        </div>
+      </div>
+
+      <div class="admin-panel">
+        <div style="margin-bottom:10px" class="small">كلمة السر للدخول للوحة: <strong>admin123</strong> (يمكنك تعديلها في الكود لاحقًا)</div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px">
+          <select id="admin-phase">
+            <option value="ابتدائي">ابتدائي</option>
+            <option value="إعدادي">إعدادي</option>
+            <option value="ثانوي">ثانوي</option>
+          </select>
+          <select id="admin-year"></select>
+          <select id="admin-week">
+            <option value="1">الأسبوع 1</option><option value="2">الأسبوع 2</option><option value="3">الأسبوع 3</option><option value="4">الأسبوع 4</option>
+            <option value="5">الأسبوع 5</option><option value="6">الأسبوع 6</option><option value="7">الأسبوع 7</option><option value="8">الأسبوع 8</option>
+            <option value="9">الأسبوع 9</option><option value="10">الأسبوع 10</option><option value="11">الأسبوع 11</option><option value="12">الأسبوع 12</option>
+          </select>
+        </div>
+
+        <label>لينك الفيديو (embed)</label>
+        <input id="admin-video" placeholder="مثال: https://www.youtube.com/embed/VIDEO_ID">
+
+        <label>لينك الاختبار</label>
+        <input id="admin-quiz" placeholder="مثال: https://forms.gle/XXXXX">
+
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button class="btn" onclick="saveAdminWeek()">حفظ الأسبوع</button>
+          <button class="btn ghost" onclick="clearAdminWeek()">مسح الأسبوع</button>
+          <button class="btn ghost" onclick="downloadContent()">تحميل نسخة احتياطية</button>
+          <label style="display:inline-block" class="btn ghost">استيراد JSON
+            <input id="importFile" type="file" accept="application/json" style="display:none" onchange="importContentFile(event)">
+          </label>
+        </div>
+
+        <div style="margin-top:12px">
+          <div class="small">مشاهدة/تصدير كامل المحتوى (JSON)</div>
+          <pre id="content-preview" style="max-height:160px;overflow:auto;background:#f7fdfb;padding:8px;border-radius:8px;border:1px solid #eef9f2"></pre>
+        </div>
+      </div>
+    </section>
+
+    <footer class="appfooter" style="margin-top:18px;color:var(--muted);font-size:13px">© 2025 مستر محمد محمود — منصة تعليمية للعلوم (محلي)</footer>
+  </div>
+
+<script>
+/* ========== بيانات افتراضية / بنية المحتوى ========== 
+   البنية: content[level][year][weekIndex-1] = {video:'', quiz:''}
+   سنخزن في localStorage باسم 'mm_content_v1'
+*/
+const defaultContent = {
+  'ابتدائي': {
+    'الرابعة': Array(12).fill({video:'',quiz:'#'}),
+    'الخامسة': Array(12).fill({video:'',quiz:'#'}),
+    'السادسة': Array(12).fill({video:'',quiz:'#'})
+  },
+  'إعدادي': {
+    'الأولى': Array(12).fill({video:'',quiz:'#'}),
+    'الثانية': Array(12).fill({video:'',quiz:'#'}),
+    'الثالثة': Array(12).fill({video:'',quiz:'#'})
+  },
+  'ثانوي': {
+    'الأولى': Array(12).fill({video:'',quiz:'#'}),
+    'الثانية': Array(12).fill({video:'',quiz:'#'}),
+    'الثالثة': Array(12).fill({video:'',quiz:'#'})
+  }
+};
+
+const STORAGE_KEY = 'mm_content_v1';
+const USERS_KEY = 'mm_users';
+const CURRENT_KEY = 'mm_current';
+const PROGRESS_KEY = 'mm_progress_v1'; // شكل: { username: { "ابتدائي|الرابعة":[true,false,...] , ... } }
+
+function loadContent(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw) { localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultContent)); return defaultContent; }
+  try{ return JSON.parse(raw); } catch(e){ localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultContent)); return defaultContent; }
+}
+function saveContent(obj){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+}
+let content = loadContent();
+
+/* ========== صفحات وتنقل ========= */
+function showPage(id){
+  document.querySelectorAll('section.page').forEach(s=>s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el) el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* auth toggle */
+function showAuth(mode){
+  document.getElementById('tab-new').classList.remove('active');
+  document.getElementById('tab-loginExisting').classList.remove('active');
+  if(mode==='new'){
+    document.getElementById('tab-new').classList.add('active');
+    document.getElementById('auth-new').style.display='block';
+    document.getElementById('auth-exist').style.display='none';
+  } else {
+    document.getElementById('tab-loginExisting').classList.add('active');
+    document.getElementById('auth-new').style.display='none';
+    document.getElementById('auth-exist').style.display='block';
+  }
+}
+
+/* ========== تسجيل/دخول وتخزين المستخدمين ========== */
+function registerNew(){
+  const name = document.getElementById('reg-name').value.trim();
+  const contact = document.getElementById('reg-contact').value.trim();
+  const pass = document.getElementById('reg-pass').value;
+  if(!name || !pass){ alert('من فضلك املأ الاسم وكلمة المرور'); return; }
+  const users = JSON.parse(localStorage.getItem(USERS_KEY)||'{}');
+  if(users[name] && !confirm('الاسم موجود بالفعل. استبدال؟')) return;
+  users[name] = {contact,pass};
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  alert('تم التسجيل بنجاح! مرحبًا '+name);
+  loginUser(name);
+}
+function loginExisting(){
+  const name = document.getElementById('login-name').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  if(!name || !pass){ alert('من فضلك املأ الحقول'); return; }
+  const users = JSON.parse(localStorage.getItem(USERS_KEY)||'{}');
+  if(users[name] && users[name].pass===pass){
+    loginUser(name);
+  } else {
+    alert('خطأ في بيانات الدخول. إذا لم تسجل بعد، استخدم "تسجيل جديد".');
+  }
+}
+function fillDemo(){
+  const demo = 'طالب تجريبي';
+  const users = JSON.parse(localStorage.getItem(USERS_KEY)||'{}');
+  users[demo] = {contact:'',pass:'1234'};
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  document.getElementById('login-name').value = demo;
+  document.getElementById('login-pass').value = '1234';
+  loginExisting();
+}
+function loginUser(name){
+  localStorage.setItem(CURRENT_KEY, name);
+  document.getElementById('top-student-name').textContent = name;
+  document.getElementById('student-name-display').textContent = name;
+  document.getElementById('user-info').style.display = 'block';
+  updateOverallProgress();
+  showPage('home-page');
+}
+function logout(){
+  localStorage.removeItem(CURRENT_KEY);
+  document.getElementById('user-info').style.display = 'none';
+  showPage('auth-page');
+}
+
+/* ========== اختيار مرحلة وسنوات ========== */
+const phaseMap = {
+  'ابتدائي': ['الرابعة','الخامسة','السادسة'],
+  'إعدادي': ['الأولى','الثانية','الثالثة'],
+  'ثانوي': ['الأولى','الثانية','الثالثة']
+};
+
+function choosePhase(phase){
+  // عرض السنوات
+  const area = document.getElementById('years-area');
+  area.innerHTML = '';
+  phaseMap[phase].forEach(year=>{
+    const d = document.createElement('div');
+    d.className = 'year-card';
+    d.textContent = year;
+    d.onclick = ()=>openClass(phase, year);
+    area.appendChild(d);
+  });
+  area.scrollIntoView({behavior:'smooth'});
+}
+
+/* ========== فتح صفحة الصف واظهار 12 أسبوع ========== */
+let currentPhase='', currentYear='';
+function openClass(phase, year){
+  currentPhase = phase; currentYear = year;
+  document.getElementById('class-info').textContent = phase + ' — ' + year;
+  const grid = document.getElementById('weeks-grid');
+  grid.innerHTML = '';
+  // load progress for this user
+  const username = localStorage.getItem(CURRENT_KEY)||'';
+  const prog = getUserProgress(username, phase, year); // array 12 booleans
+  for(let i=1;i<=12;i++){
+    const w = document.createElement('div');
+    w.className = 'week-card';
+    w.textContent = 'الأسبوع ' + i;
+    if(prog[i-1]) w.classList.add('active');
+    w.dataset.week = i;
+    w.onclick = ()=>selectWeek(i, w);
+    grid.appendChild(w);
+  }
+  document.getElementById('content-area').classList.add('hidden');
+  updateClassProgressUI(phase, year);
+  showPage('class-page');
+}
+
+/* ========== اختيار أسبوع ========== */
+function selectWeek(weekNum, el){
+  document.querySelectorAll('.week-card').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  // جلب المحتوى
+  content = loadContent();
+  const info = (content[currentPhase] && content[currentPhase][currentYear] && content[currentPhase][currentYear][weekNum-1]) || {video:'',quiz:'#'};
+  document.getElementById('chosen-week-title').textContent = `المحتوى — ${currentPhase} / ${currentYear} — الأسبوع ${weekNum}`;
+  const vf = document.getElementById('video-iframe');
+  vf.src = info.video || '';
+  const ql = document.getElementById('quiz-link');
+  ql.href = info.quiz || '#';
+  ql.textContent = (info.quiz && info.quiz!=='#') ? 'اذهب للاختبار' : 'لم يُضاف رابط للاختبار بعد';
+  // إظهار محتوى
+  document.getElementById('content-area').classList.remove('hidden');
+  // حفظ حاله الأسبوع المرئي حاليا
+  document.getElementById('mark-done-btn').dataset.week = weekNum;
+  // scroll
+  document.getElementById('content-area').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* ========== تقدم الطالب (progress) ========== */
+function getUserProgress(username, phase, year){
+  if(!username) return Array(12).fill(false);
+  const raw = JSON.parse(localStorage.getItem(PROGRESS_KEY)||'{}');
+  const key = `${phase}|${year}`;
+  if(raw[username] && raw[username][key]) return raw[username][key];
+  // init
+  const arr = Array(12).fill(false);
+  if(!raw[username]) raw[username] = {};
+  raw[username][key] = arr;
+  localStorage.setItem(PROGRESS_KEY, JSON.stringify(raw));
+  return arr;
+}
+function setUserProgress(username, phase, year, arr){
+  const raw = JSON.parse(localStorage.getItem(PROGRESS_KEY)||'{}');
+  if(!raw[username]) raw[username] = {};
+  raw[username][`${phase}|${year}`] = arr;
+  localStorage.setItem(PROGRESS_KEY, JSON.stringify(raw));
+}
+function markDone(){
+  const week = parseInt(document.getElementById('mark-done-btn').dataset.week || '0');
+  if(!week){ alert('اختر الأسبوع أولًا'); return; }
+  const username = localStorage.getItem(CURRENT_KEY)||'';
+  if(!username){ alert('يجب تسجيل الدخول'); return; }
+  const arr = getUserProgress(username, currentPhase, currentYear);
+  arr[week-1] = true;
+  setUserProgress(username, currentPhase, currentYear, arr);
+  // تحديث واجهة
+  document.querySelectorAll('.week-card').forEach(c=>{ if(parseInt(c.dataset.week)===week) c.classList.add('active') });
+  updateClassProgressUI(currentPhase, currentYear);
+  updateOverallProgress();
+  alert('تم تعليم الأسبوع كمُنجز ✅');
+}
+function updateClassProgressUI(phase, year){
+  const username = localStorage.getItem(CURRENT_KEY)||'';
+  const arr = getUserProgress(username, phase, year);
+  const done = arr.filter(Boolean).length;
+  const pct = Math.round((done/12)*100);
+  document.getElementById('class-progress').style.width = pct+'%';
+}
+function updateOverallProgress(){
+  const username = localStorage.getItem(CURRENT_KEY)||'';
+  if(!username){ document.getElementById('overall-progress').style.width='0%'; return; }
+  const raw = JSON.parse(localStorage.getItem(PROGRESS_KEY)||'{}');
+  const userObj = raw[username]||{};
+  let totalWeeks = 0, doneWeeks = 0;
+  Object.keys(userObj).forEach(k=>{
+    const arr = userObj[k] || [];
+    totalWeeks += arr.length;
+    doneWeeks += arr.filter(Boolean).length;
+  });
+  // إذا لم توجد بيانات، افتراضيًا 36 أسبوع (3 مراحل*12)
+  if(totalWeeks===0){ totalWeeks = 36; doneWeeks = 0; }
+  const pct = Math.round((doneWeeks/totalWeeks)*100);
+  document.getElementById('overall-progress').style.width = pct+'%';
+}
+
+/* ========== Admin panel functionality ========== */
+let adminOpen = false;
+function openAdmin(){
+  // بسيط: اطلب كلمة السر أولًا
+  const pass = prompt('أدخل كلمة سر لوحة الإدارة:');
+  if(pass !== 'admin123'){ alert('كلمة السر خاطئة'); return; }
+  adminOpen = true;
+  // تهيئة خيارات السنوات
+  populateAdminYears();
+  // عرض الصفحة
+  showPage('admin-page');
+  refreshAdminPreview();
+}
+function closeAdmin(){ adminOpen = false; showPage('home-page'); }
+
+function populateAdminYears(){
+  const sel = document.getElementById('admin-year');
+  sel.innerHTML = '';
+  // افتراضيًا نستخدم phaseMap[first]
+  const phase = document.getElementById('admin-phase').value || 'ابتدائي';
+  phaseMap[phase].forEach(y=>{
+    const op = document.createElement('option'); op.value = y; op.textContent = y; sel.appendChild(op);
+  });
+}
+document.getElementById('admin-phase').addEventListener('change', populateAdminYears);
+
+function refreshAdminPreview(){
+  content = loadContent();
+  document.getElementById('content-preview').textContent = JSON.stringify(content, null, 2);
+  // load selected week content into inputs
+  const phase = document.getElementById('admin-phase').value;
+  const year = document.getElementById('admin-year').value;
+  const week = parseInt(document.getElementById('admin-week').value || '1');
+  const item = (content[phase] && content[phase][year] && content[phase][year][week-1]) || {video:'',quiz:'#'};
+  document.getElementById('admin-video').value = item.video || '';
+  document.getElementById('admin-quiz').value = (item.quiz && item.quiz!=='#') ? item.quiz : '';
+}
+document.getElementById('admin-year').addEventListener('change', refreshAdminPreview);
+document.getElementById('admin-week').addEventListener('change', refreshAdminPreview);
+
+/* حفظ الأسبوع الذي يعدّله الأدمن */
+function saveAdminWeek(){
+  const phase = document.getElementById('admin-phase').value;
+  const year = document.getElementById('admin-year').value;
+  const week = parseInt(document.getElementById('admin-week').value || '1');
+  const video = document.getElementById('admin-video').value.trim();
+  const quiz = document.getElementById('admin-quiz').value.trim() || '#';
+  content = loadContent();
+  if(!content[phase]) content[phase] = {};
+  if(!content[phase][year]) content[phase][year] = Array(12).fill({video:'',quiz:'#'}).map((x,i)=>({video:'',quiz:'#'}));
+  content[phase][year][week-1] = {video,quiz};
+  saveContent(content);
+  alert('تم حفظ بيانات الأسبوع.');
+  refreshAdminPreview();
+}
+function clearAdminWeek(){
+  const phase = document.getElementById('admin-phase').value;
+  const year = document.getElementById('admin-year').value;
+  const week = parseInt(document.getElementById('admin-week').value || '1');
+  content = loadContent();
+  if(content[phase] && content[phase][year]) content[phase][year][week-1] = {video:'',quiz:'#'};
+  saveContent(content);
+  alert('تم مسح بيانات الأسبوع.');
+  refreshAdminPreview();
+}
+
+/* تحميل نسخة احتياطية (download JSON) */
+function downloadContent(){
+  content = loadContent();
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(content,null,2));
+  const a = document.createElement('a'); a.href = dataStr; a.download = 'mm_content_backup.json'; document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* استيراد ملف JSON */
+function importContentFile(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(){ 
+    try{
+      const parsed = JSON.parse(reader.result);
+      // خيار حماية: نطلب تأكيد الاستبدال
+      if(!confirm('سيتم استبدال المحتوى الحالي بالمحتوى من الملف. هل تتابع؟')) return;
+      saveContent(parsed);
+      content = loadContent();
+      alert('تم استيراد المحتوى.');
+      refreshAdminPreview();
+    }catch(err){ alert('خطأ في محتوى الملف. تأكد أنه JSON صالح.'); }
+  };
+  reader.readAsText(file);
+  // تفريغ قيمة الحقل حتى يمكن استيراد نفس الملف مرة أخرى
+  e.target.value = '';
+}
+
+/* فتح صفحة الأدمن ومباشرة تعديل أسبوع من صفحة الطالب */
+function openAdminForWeek(){
+  // نطلب كلمة السر
+  const pass = prompt('أدخل كلمة سر لوحة الإدارة للتعديل على هذا الأسبوع:');
+  if(pass !== 'admin123'){ alert('كلمة السر خاطئة'); return; }
+  // نملأ القيم
+  const week = parseInt(document.getElementById('mark-done-btn').dataset.week || '1');
+  document.getElementById('admin-phase').value = currentPhase;
+  populateAdminYears();
+  document.getElementById('admin-year').value = currentYear;
+  document.getElementById('admin-week').value = week;
+  refreshAdminPreview();
+  showPage('admin-page');
+}
+
+/* استيراد المحتوى في المتغير عند بداية التشغيل + init UI */
+function init(){
+  content = loadContent();
+  // init admin-year options
+  populateAdminYears();
+  // init page display based on logged user
+  const cur = localStorage.getItem(CURRENT_KEY);
+  if(cur){
+    document.getElementById('top-student-name').textContent = cur;
+    document.getElementById('student-name-display').textContent = cur;
+    document.getElementById('user-info').style.display = 'block';
+    updateOverallProgress();
+    showPage('home-page');
+  } else {
+    showPage('auth-page');
+  }
+  refreshAdminPreview();
+}
+init();
+
+/* ========== استيراد/تصدير بسيط + مساعدة حول الربط بالسيرفر لاحقًا ==========
+  للتحويل إلى نظام سيرفر لاحقًا:
+  - يمكنك إرسال POST على سيرفرك من جانب Admin عند حفظ المحتوى:
+    fetch('/api/saveContent', {method:'POST', body: JSON.stringify(content), headers:{'Content-Type':'application/json'}})
+  - وحفظ المستخدمين والتقدّم في قاعدة بيانات (مثلاً Firebase أو MySQL)
+  - حالياً النظام محلي ليكون سهل الاستخدام دون إعداد سيرفر.
+======================================================== */
+</script>
+</body>
+</html>
